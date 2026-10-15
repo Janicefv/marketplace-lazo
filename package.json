@@ -1,0 +1,43 @@
+{
+  "name": "c2c-marketplace",
+  "version": "1.0.0",
+  "description": "Marketplace C2C: registro, publicación, búsqueda y compra de productos entre clientes",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env scripts/serve.js",
+    "start": "node --env-file-if-exists=.env scripts/serve.js",
+    "db:migrate": "node --env-file-if-exists=.env scripts/migrate.js",
+    "db:seed": "node --env-file-if-exists=.env scripts/seed.js",
+    "test": "node --test --test-concurrency=1 \"tests/*.test.js\"",
+    "vercel-build": "node scripts/migrate.js --if-configured"
+  },
+  "keywords": [
+    "c2c",
+    "marketplace",
+    "express",
+    "postgresql",
+    "vercel"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/functions": "^3.9.11",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mercadopago": "^3.6.1",
+    "multer": "^2.4.0",
+    "pg": "^8.23.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.1"
+  },
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  }
+}

@@ -1,0 +1,7 @@
+tests/
+infra/
+docs/
+uploads/
+Dockerfile
+docker-compose.yml
+.env
