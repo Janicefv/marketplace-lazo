@@ -1,0 +1,20 @@
+%%{init: {"wrap": true}}%%
+C4Context
+  title Nivel 1 - Contexto del sistema: Marketplace C2C Lazo
+
+  Person(visitante, "Cliente no registrado", "Explora el catálogo y crea su cuenta (HU-01, HU-03)")
+  Person(cliente, "Cliente registrado", "Publica (HU-02), busca (HU-03) y compra (HU-04)")
+  System(c2c, "Marketplace C2C Lazo", "Aplicación web multicapa detrás de un proxy inverso")
+  System_Ext(pagos, "Pasarela de pagos", "Mercado Pago Checkout Pro: tarjeta y PSE en COP")
+  System_Ext(imagenes, "Cloudinary", "Almacenamiento y CDN de imágenes")
+
+  Rel(visitante, c2c, "Busca y se registra", "HTTPS")
+  Rel(cliente, c2c, "Publica, busca y compra", "HTTPS")
+  Rel(cliente, pagos, "Paga la compra", "HTTPS")
+  BiRel(c2c, pagos, "Checkout, verificación y webhooks", "HTTPS")
+  Rel(c2c, imagenes, "Sube y elimina imágenes", "HTTPS")
+
+  UpdateRelStyle(visitante, c2c, $offsetX="-80", $offsetY="-20")
+  UpdateRelStyle(cliente, c2c, $offsetX="10", $offsetY="20")
+  UpdateRelStyle(c2c, pagos, $offsetX="95", $offsetY="58")
+  UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")

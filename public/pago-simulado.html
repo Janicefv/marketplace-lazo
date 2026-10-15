@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pasarela de pagos de prueba</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/poppins-400.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/pages/sim-pay.js"></script>
+</head>
+<body class="gateway-body">
+  <div class="gateway-bar"><p>Pasarela de pagos de prueba (sandbox). No se mueve dinero real.</p></div>
+
+  <main id="main" class="gateway">
+    <p class="loading" id="loading">Cargando orden…</p>
+    <div class="alert" id="page-alert" hidden></div>
+
+    <section class="panel" id="pay-panel" hidden aria-labelledby="pay-title">
+      <div class="gateway__amount">
+        <div>
+          <h1 id="pay-title">Pagar a Lazo</h1>
+          <p class="hint" id="order-ref"></p>
+        </div>
+        <strong id="amount"></strong>
+      </div>
+      <p class="hint timer-line">Tiempo para pagar: <span class="timer" id="timer"></span></p>
+
+      <form id="card-form" novalidate hidden>
+        <div class="field">
+          <label for="number">Número de tarjeta</label>
+          <input id="number" name="number" type="text" inputmode="numeric" autocomplete="cc-number" maxlength="23"
+                 placeholder="0000 0000 0000 0000" required aria-describedby="number-error">
+          <p class="field-error" id="number-error"></p>
+        </div>
+        <div class="field">
+          <label for="holder">Nombre del titular</label>
+          <input id="holder" name="holder" type="text" autocomplete="cc-name" maxlength="80" required aria-describedby="holder-error">
+          <p class="field-error" id="holder-error"></p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="expiry">Vencimiento (MM/AA)</label>
+            <input id="expiry" name="expiry" type="text" inputmode="numeric" autocomplete="cc-exp" maxlength="5"
+                   placeholder="12/30" required aria-describedby="expiry-error">
+            <p class="field-error" id="expiry-error"></p>
+          </div>
+          <div class="field">
+            <label for="cvc">Código de seguridad</label>
+            <input id="cvc" name="cvc" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="4"
+                   placeholder="123" required aria-describedby="cvc-error">
+            <p class="field-error" id="cvc-error"></p>
+          </div>
+        </div>
+        <details>
+          <summary>Tarjetas de prueba</summary>
+          <ul class="test-cards" id="test-cards">
+            <li><button type="button" data-number="4242 4242 4242 4242"><span>4242 4242 4242 4242</span><span>Aprobada</span></button></li>
+            <li><button type="button" data-number="4000 0000 0000 0002"><span>4000 0000 0000 0002</span><span>Rechazada</span></button></li>
+            <li><button type="button" data-number="4000 0000 0000 9995"><span>4000 0000 0000 9995</span><span>Fondos insuficientes</span></button></li>
+          </ul>
+        </details>
+        <button class="button button--block button--large" type="submit" id="pay-card">Pagar</button>
+      </form>
+
+      <form id="pse-form" novalidate hidden>
+        <div class="field">
+          <label for="bank">Banco</label>
+          <select id="bank" name="bank" required aria-describedby="bank-error">
+            <option value="">Selecciona tu banco</option>
+            <option>Bancolombia</option>
+            <option>Banco de Bogotá</option>
+            <option>Davivienda</option>
+            <option>BBVA Colombia</option>
+            <option>Banco de Occidente</option>
+            <option>Nequi</option>
+          </select>
+          <p class="field-error" id="bank-error"></p>
+        </div>
+        <fieldset class="field">
+          <legend>Resultado que quieres simular</legend>
+          <div class="method-options">
+            <label class="method">
+              <input type="radio" name="outcome" value="aprobado" checked>
+              <strong>El banco aprueba</strong>
+              <span>La orden queda pagada y el producto vendido.</span>
+            </label>
+            <label class="method">
+              <input type="radio" name="outcome" value="rechazado">
+              <strong>El banco rechaza</strong>
+              <span>La orden se cierra y el producto vuelve al catálogo.</span>
+            </label>
+          </div>
+        </fieldset>
+        <button class="button button--block button--large" type="submit" id="pay-pse">Pagar con PSE</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,60 @@
+---
+title: Nivel 4 - Modelo de datos (PostgreSQL)
+---
+erDiagram
+  USERS ||--o{ PRODUCTS : "publica"
+  CATEGORIES ||--o{ PRODUCTS : "clasifica"
+  PRODUCTS ||--|{ PRODUCT_IMAGES : "tiene 1 a 5"
+  PRODUCTS ||--o{ ORDERS : "se compra en"
+  USERS ||--o{ ORDERS : "compra (buyer_id)"
+  USERS ||--o{ ORDERS : "vende (seller_id)"
+
+  USERS {
+    uuid id PK
+    varchar name
+    varchar email UK "único, sin distinguir mayúsculas"
+    varchar password_hash "bcrypt"
+    varchar phone
+    timestamptz created_at
+  }
+  CATEGORIES {
+    smallint id PK
+    varchar slug UK
+    varchar name
+  }
+  PRODUCTS {
+    uuid id PK
+    uuid seller_id FK
+    smallint category_id FK
+    varchar title
+    text description
+    integer price "COP"
+    varchar status "disponible, reservado, vendido"
+    timestamptz reserved_until
+    tsvector search_vector "generado, índice GIN"
+    timestamptz created_at
+  }
+  PRODUCT_IMAGES {
+    uuid id PK
+    uuid product_id FK
+    text url "HTTPS de Cloudinary"
+    text storage_key
+    smallint position
+  }
+  ORDERS {
+    uuid id PK
+    uuid product_id FK
+    uuid buyer_id FK "CHECK distinto de seller_id"
+    uuid seller_id FK
+    integer amount
+    char currency "COP"
+    varchar status "pendiente, pagada, rechazada, expirada, cancelada"
+    varchar payment_method "tarjeta, pse"
+    varchar payment_provider
+    text checkout_ref
+    text payment_ref
+    boolean refund_required "pago tardío sin producto"
+    jsonb shipping_address
+    timestamptz expires_at
+    timestamptz paid_at
+  }

@@ -1,0 +1,35 @@
+---
+title: Vista dinámica - HU-04 proceso de compra
+---
+sequenceDiagram
+  autonumber
+  actor C as Comprador
+  participant W as Frontend web
+  participant P as Proxy inverso
+  participant A as API (OrderService / PaymentService)
+  participant D as PostgreSQL
+  participant G as Pasarela de pagos
+
+  C->>W: Clic en "Comprar ahora", confirma dirección y método
+  W->>P: POST /api/orders (cookie JWT)
+  P->>A: Reenvía la petición
+  A->>D: BEGIN · SELECT producto FOR UPDATE
+  alt Comprador = vendedor
+    A-->>W: 403 SELF_PURCHASE
+  else Vendido o reservado por otro
+    A-->>W: 409 PRODUCT_SOLD / PRODUCT_RESERVED
+  else Disponible
+    A->>D: Producto "reservado" 15 min · INSERT orden "pendiente" · COMMIT
+    A->>G: Crear checkout (preferencia)
+    G-->>A: checkoutUrl
+    A-->>W: 201 { orden, checkoutUrl }
+    W->>G: Redirige al checkout
+    C->>G: Paga con tarjeta o PSE
+    G->>P: Webhook (pago aprobado o rechazado)
+    P->>A: POST /api/payments/webhook
+    A->>G: Consulta el pago (nunca confía en el navegador)
+    A->>D: Aprobado: producto "vendido", orden "pagada"<br/>Rechazado: orden "rechazada", producto "disponible"
+    G-->>W: Redirige a /confirmacion.html
+    W->>A: GET /api/orders/:id
+    A-->>W: Recibo con el estado final
+  end

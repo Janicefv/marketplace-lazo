@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publicar un producto · Lazo</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/poppins-400.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/pages/publish.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="/index.html"><img src="/img/logo.svg" alt="" width="34" height="34">Lazo</a>
+      <form class="search" role="search" action="/index.html" method="get">
+        <label class="visually-hidden" for="site-search">Buscar productos</label>
+        <input id="site-search" name="search" type="search" maxlength="100" placeholder="Buscar bolsos, vestidos, velas…">
+        <button class="button" type="submit">Buscar</button>
+      </form>
+      <nav class="header-actions" id="session-actions" aria-label="Cuenta"></nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="form-page form-page--wide">
+      <h1>Publica un producto</h1>
+      <p class="lead">Las fotos claras y una descripción honesta venden más rápido.</p>
+
+      <form id="publish-form" novalidate>
+        <div class="alert" id="form-alert" hidden></div>
+
+        <section class="panel" aria-labelledby="photos-title">
+          <h2 id="photos-title">Fotos</h2>
+          <div class="field">
+            <label class="dropzone" id="dropzone" for="images">
+              <strong>Agrega fotos</strong>
+              <span>Arrástralas aquí o haz clic para elegirlas</span>
+              <span class="hint">Hasta 5 fotos JPG, PNG o WEBP. La primera será la portada.</span>
+              <input id="images" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple
+                     aria-describedby="images-error">
+            </label>
+            <p class="field-error" id="images-error" role="alert"></p>
+            <ul class="previews" id="previews" aria-label="Fotos seleccionadas"></ul>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="details-title">
+          <h2 id="details-title">Detalles</h2>
+          <div class="field">
+            <label for="title">Título <span class="counter" id="title-count">0/120</span></label>
+            <input id="title" name="title" type="text" maxlength="120" required
+                   placeholder="Ej.: Bicicleta de montaña rin 29, talla M" aria-describedby="title-hint title-error">
+            <p class="hint" id="title-hint">Mínimo 5 caracteres. Incluye marca, modelo y talla si aplica.</p>
+            <p class="field-error" id="title-error"></p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="categoryId">Categoría</label>
+              <select id="categoryId" name="categoryId" required aria-describedby="categoryId-error">
+                <option value="">Selecciona una categoría</option>
+              </select>
+              <p class="field-error" id="categoryId-error"></p>
+            </div>
+            <div class="field">
+              <label for="price">Precio</label>
+              <div class="price-input">
+                <span aria-hidden="true">$</span>
+                <input id="price" name="price" type="text" inputmode="numeric" autocomplete="off" required
+                       placeholder="0" aria-describedby="price-hint price-error">
+              </div>
+              <p class="hint" id="price-hint">En pesos colombianos, sin centavos.</p>
+              <p class="field-error" id="price-error"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="description">Descripción <span class="counter" id="description-count">0/2000</span></label>
+            <textarea id="description" name="description" maxlength="2000" required
+                      placeholder="Estado, tiempo de uso, detalles o fallas, qué incluye…"
+                      aria-describedby="description-hint description-error"></textarea>
+            <p class="hint" id="description-hint">Mínimo 20 caracteres.</p>
+            <p class="field-error" id="description-error"></p>
+          </div>
+        </section>
+
+        <div class="panel">
+          <button class="button button--block button--large" type="submit" id="submit" disabled>Publicar producto</button>
+          <p class="missing" id="missing" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p><span class="footer-mark" aria-hidden="true">♡</span> Lazo es un marketplace C2C: cada persona registrada puede comprar y vender.</p></footer>
+</body>
+</html>

@@ -1,0 +1,128 @@
+---
+title: Nivel 4 - Código de la API (módulos por capa y puertos)
+---
+classDiagram
+  direction TB
+
+  namespace CapaAPI {
+    class AuthController {
+      +register(req, res)
+      +login(req, res)
+      +me(req, res)
+      +logout(req, res)
+    }
+    class ProductController {
+      +listCategories(req, res)
+      +search(req, res)
+      +getById(req, res)
+      +publish(req, res)
+    }
+    class OrderController {
+      +create(req, res)
+      +getById(req, res)
+      +simulatedCharge(req, res)
+      +confirm(req, res)
+      +webhook(req, res)
+    }
+  }
+
+  namespace CapaNegocio {
+    class AuthService {
+      +register(data) Session
+      +login(credentials) Session
+      +getProfile(userId) User
+      +verifyToken(token) AuthUser
+    }
+    class ProductService {
+      +publish(sellerId, data, files) Product
+      +search(filters) Page
+      +getById(id) Product
+      +listCategories() Category[]
+    }
+    class OrderService {
+      +create(buyerId, data) Checkout
+      +getForUser(orderId, userId) Order
+    }
+    class PaymentService {
+      +applyResult(orderId, payment) Order
+      +chargeSimulated(buyerId, data) Order
+      +confirm(buyerId, data) Order
+      +handleNotification(notification) Result
+    }
+  }
+
+  namespace CapaDatos {
+    class UserRepository {
+      +findByEmailWithHash(email)
+      +existsByEmail(email)
+      +findById(id)
+      +create(user)
+    }
+    class CategoryRepository {
+      +list()
+      +findById(id)
+    }
+    class ProductRepository {
+      +search(filters)
+      +findById(id)
+      +findForPurchase(id, tx)
+      +create(data, tx)
+      +addImages(id, images, tx)
+      +reserve(id, minutes, tx)
+      +markSold(id, tx)
+      +release(id, tx)
+    }
+    class OrderRepository {
+      +findById(id)
+      +findForPayment(id, tx)
+      +create(order, tx)
+      +expirePendingForProduct(productId, tx)
+      +hasOtherActivePending(productId, orderId, tx)
+      +attachCheckout(id, ref)
+      +markPaid(id, ref, tx)
+      +markRejected(id, ref, opts, tx)
+      +markCancelled(id, tx)
+    }
+  }
+
+  namespace Integraciones {
+    class StoragePort {
+      <<interface>>
+      +name
+      +upload(buffer, opts) StoredImage
+      +remove(key)
+    }
+    class CloudinaryStorage
+    class LocalStorage
+    class PaymentGatewayPort {
+      <<interface>>
+      +name
+      +createCheckout(order, buyer) Checkout
+      +getPayment(paymentId) PaymentResult
+      +parseNotification(request) paymentId
+    }
+    class MercadoPagoGateway
+    class SimulatedGateway {
+      +charge(order, card, outcome) PaymentResult
+    }
+  }
+
+  AuthController --> AuthService
+  ProductController --> ProductService
+  OrderController --> OrderService
+  OrderController --> PaymentService
+  AuthService --> UserRepository
+  ProductService --> ProductRepository
+  ProductService --> CategoryRepository
+  ProductService --> StoragePort
+  OrderService --> ProductRepository
+  OrderService --> OrderRepository
+  OrderService --> UserRepository
+  OrderService --> PaymentGatewayPort
+  PaymentService --> OrderRepository
+  PaymentService --> ProductRepository
+  PaymentService --> PaymentGatewayPort
+  StoragePort <|.. CloudinaryStorage
+  StoragePort <|.. LocalStorage
+  PaymentGatewayPort <|.. MercadoPagoGateway
+  PaymentGatewayPort <|.. SimulatedGateway

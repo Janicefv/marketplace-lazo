@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finalizar compra · Lazo</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/poppins-400.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/pages/checkout.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="/index.html"><img src="/img/logo.svg" alt="" width="34" height="34">Lazo</a>
+      <form class="search" role="search" action="/index.html" method="get">
+        <label class="visually-hidden" for="site-search">Buscar productos</label>
+        <input id="site-search" name="search" type="search" maxlength="100" placeholder="Buscar bolsos, vestidos, velas…">
+        <button class="button" type="submit">Buscar</button>
+      </form>
+      <nav class="header-actions" id="session-actions" aria-label="Cuenta"></nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1>Finalizar compra</h1>
+    <div class="alert" id="page-alert" hidden></div>
+    <p class="loading" id="loading">Cargando…</p>
+
+    <form class="checkout" id="checkout-form" novalidate hidden>
+      <div>
+        <section class="panel" aria-labelledby="address-title">
+          <h2 id="address-title">Dirección de entrega</h2>
+          <p class="hint section-hint">Confirma a dónde debe enviar el vendedor tu producto.</p>
+          <div class="field-row">
+            <div class="field">
+              <label for="fullName">Nombre de quien recibe</label>
+              <input id="fullName" name="fullName" type="text" autocomplete="name" maxlength="80" required aria-describedby="fullName-error">
+              <p class="field-error" id="fullName-error"></p>
+            </div>
+            <div class="field">
+              <label for="phone">Teléfono de contacto</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="20" required aria-describedby="phone-error">
+              <p class="field-error" id="phone-error"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="address">Dirección</label>
+            <input id="address" name="address" type="text" autocomplete="street-address" maxlength="160" required
+                   placeholder="Calle 45 # 12-30, apto 502" aria-describedby="address-error">
+            <p class="field-error" id="address-error"></p>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="city">Ciudad o municipio</label>
+              <input id="city" name="city" type="text" autocomplete="address-level2" maxlength="60" required aria-describedby="city-error">
+              <p class="field-error" id="city-error"></p>
+            </div>
+            <div class="field">
+              <label for="department">Departamento</label>
+              <select id="department" name="department" required aria-describedby="department-error">
+                <option value="">Selecciona</option>
+              </select>
+              <p class="field-error" id="department-error"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="notes">Indicaciones <span class="optional">(opcional)</span></label>
+            <input id="notes" name="notes" type="text" maxlength="200" placeholder="Portería, horario, punto de referencia">
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="method-title">
+          <h2 id="method-title">Método de pago</h2>
+          <fieldset class="method-options" aria-describedby="paymentMethod-error">
+            <legend class="visually-hidden">Elige cómo pagar</legend>
+            <label class="method">
+              <input type="radio" name="paymentMethod" value="tarjeta" id="paymentMethod" checked>
+              <strong>Tarjeta crédito o débito</strong>
+              <span>Visa, Mastercard y otras. Pagas en la pasarela segura.</span>
+            </label>
+            <label class="method">
+              <input type="radio" name="paymentMethod" value="pse">
+              <strong>PSE</strong>
+              <span>Débito directo desde tu cuenta bancaria.</span>
+            </label>
+          </fieldset>
+          <p class="field-error" id="paymentMethod-error"></p>
+        </section>
+      </div>
+
+      <aside class="panel summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Resumen</h2>
+        <div class="summary__product">
+          <img id="summary-image" src="data:," alt="">
+          <div>
+            <p><strong id="summary-title-text"></strong></p>
+            <p class="hint" id="summary-seller"></p>
+          </div>
+        </div>
+        <dl class="totals">
+          <dt>Producto</dt><dd id="summary-price"></dd>
+          <dt>Envío</dt><dd>Lo coordinas con el vendedor</dd>
+          <dt class="total">Total a pagar</dt><dd class="total" id="summary-total"></dd>
+        </dl>
+        <button class="button button--block button--large" type="submit" id="submit">Ir a pagar</button>
+        <p class="hint">Reservamos el producto para ti mientras completas el pago.</p>
+      </aside>
+    </form>
+  </main>
+
+  <footer class="site-footer"><p><span class="footer-mark" aria-hidden="true">♡</span> Lazo es un marketplace C2C: cada persona registrada puede comprar y vender.</p></footer>
+</body>
+</html>

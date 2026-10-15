@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Producto · Lazo</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/poppins-400.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/pages/product.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="/index.html"><img src="/img/logo.svg" alt="" width="34" height="34">Lazo</a>
+      <form class="search" role="search" action="/index.html" method="get">
+        <label class="visually-hidden" for="site-search">Buscar productos</label>
+        <input id="site-search" name="search" type="search" maxlength="100" placeholder="Buscar bolsos, vestidos, velas…">
+        <button class="button" type="submit">Buscar</button>
+      </form>
+      <nav class="header-actions" id="session-actions" aria-label="Cuenta"></nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="flash" hidden></div>
+    <p class="loading" id="loading">Cargando producto…</p>
+    <article class="product" id="product" hidden>
+      <div class="gallery">
+        <img class="gallery__main" id="main-image" src="data:," alt="" width="800" height="800">
+        <div class="gallery__thumbs" id="thumbs" aria-label="Fotos del producto"></div>
+      </div>
+      <div>
+        <p class="product__category" id="category"></p>
+        <h1 id="title"></h1>
+        <p class="product__price"><span class="etiqueta etiqueta--grande" id="price"></span></p>
+        <div class="product__buy">
+          <a class="button button--large button--block" id="buy" href="#">Comprar ahora</a>
+          <p class="hint" id="buy-hint"></p>
+        </div>
+        <div class="seller">
+          <span class="seller__avatar" id="seller-avatar" aria-hidden="true"></span>
+          <div>
+            <p>Vende <strong id="seller-name"></strong></p>
+            <p class="seller__since" id="seller-since"></p>
+          </div>
+        </div>
+        <h2>Descripción</h2>
+        <p class="description" id="description"></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer"><p><span class="footer-mark" aria-hidden="true">♡</span> Lazo es un marketplace C2C: cada persona registrada puede comprar y vender.</p></footer>
+</body>
+</html>

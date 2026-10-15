@@ -1,0 +1,31 @@
+%%{init: {"wrap": true}}%%
+C4Container
+  title Nivel 2 - Contenedores: aplicación web multicapa con proxy inverso
+
+  Person(cliente, "Cliente", "Comprador o vendedor, desde el navegador")
+
+  System_Boundary(c2c, "Marketplace C2C Lazo") {
+    Container(web, "Frontend web", "HTML5, CSS3, JavaScript", "Capa de presentación: 8 páginas que llaman a la API con fetch a través del proxy")
+    Container(proxy, "Proxy inverso", "Vercel Edge / Nginx", "TLS, sirve /public, reenvía /api/*, gzip, cabeceras y límites")
+    ContainerDb(db, "Base de datos", "PostgreSQL 16 (Neon)", "Usuarios, productos, imágenes y órdenes; índices GIN y B-tree")
+    Container(api, "API REST", "Node.js 22, Express 5", "Controladores, servicios y repositorios; 14 endpoints JSON")
+  }
+
+  Boundary(ext, "Servicios externos", "SaaS") {
+    System_Ext(imagenes, "Cloudinary", "Imágenes de productos")
+    System_Ext(pagos, "Mercado Pago", "Checkout Pro; su webhook entra por el proxy")
+  }
+
+  Rel(cliente, proxy, "Usa", "HTTPS")
+  Rel(proxy, web, "Entrega el frontend", "/public")
+  Rel(proxy, api, "Reenvía /api/*", "HTTP, X-Forwarded-*")
+  Rel(api, db, "Lee y escribe", "SQL/TLS")
+  Rel(api, imagenes, "Sube imágenes", "HTTPS")
+  BiRel(api, pagos, "Pagos y webhooks", "HTTPS")
+
+  UpdateRelStyle(cliente, proxy, $offsetX="10", $offsetY="-40")
+  UpdateRelStyle(proxy, web, $offsetX="-40", $offsetY="-50")
+  UpdateRelStyle(api, db, $offsetX="-35", $offsetY="30")
+  UpdateRelStyle(api, pagos, $offsetX="70", $offsetY="-20")
+  UpdateRelStyle(api, imagenes, $offsetX="-70", $offsetY="-10")
+  UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")

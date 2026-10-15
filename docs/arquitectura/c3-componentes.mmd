@@ -1,0 +1,55 @@
+%%{init: {"wrap": true}}%%
+C4Component
+  title Nivel 3 - Componentes de la API REST, organizados por capa
+
+  Container(proxy, "Proxy inverso", "Vercel Edge / Nginx", "Reenvía /api/* a la API")
+
+  Container_Boundary(api, "API REST (Node.js 22, Express 5)") {
+    Boundary(entrada, "Entrada HTTP", "middlewares") {
+      Component(mw, "Router y middlewares", "Express", "helmet, JWT, Zod, multer, rate limit y manejo de errores")
+    }
+    Boundary(capaApi, "Capa de API", "controladores") {
+      Component(authCtl, "AuthController", "HU-01", "register, login, me, logout")
+      Component(productCtl, "ProductController", "HU-02, HU-03", "publish, search, getById, categories")
+      Component(orderCtl, "OrderController", "HU-04", "create, getById, confirm, webhook, charge")
+    }
+    Boundary(capaNegocio, "Capa de negocio", "servicios") {
+      Component(authSvc, "AuthService", "bcrypt, JWT", "Correo único, hash y emisión del token")
+      Component(productSvc, "ProductService", "", "Publica con imágenes y busca por texto")
+      Component(orderSvc, "OrderService", "", "Comprador distinto del vendedor y reserva atómica")
+      Component(paymentSvc, "PaymentService", "", "Aplica pagos idempotentes: Vendido o liberado")
+    }
+    Boundary(capaDatos, "Capa de datos e integraciones", "repositorios y adaptadores") {
+      Component(repos, "Repositorios", "pg, SQL parametrizado", "User, Category, Product y Order")
+      Component(storage, "Puerto de imágenes", "Adaptador", "Cloudinary en producción, disco en local")
+      Component(gateway, "Puerto de pagos", "Adaptador", "Mercado Pago o pasarela simulada")
+    }
+  }
+
+  Boundary(fuera, "Persistencia y servicios externos", "infraestructura") {
+    ContainerDb(db, "PostgreSQL 16", "Neon")
+    System_Ext(imagenes, "Cloudinary", "CDN de imágenes")
+    System_Ext(pagos, "Mercado Pago", "Checkout Pro")
+  }
+
+  Rel(proxy, mw, "/api/*", "HTTP")
+  UpdateRelStyle(proxy, mw, $offsetX="-75", $offsetY="-60")
+  Rel(mw, authCtl, "")
+  Rel(mw, productCtl, "")
+  Rel(mw, orderCtl, "")
+  Rel(authCtl, authSvc, "")
+  Rel(productCtl, productSvc, "")
+  Rel(orderCtl, orderSvc, "")
+  Rel(orderCtl, paymentSvc, "")
+  Rel(authSvc, repos, "")
+  Rel(productSvc, repos, "")
+  Rel(productSvc, storage, "")
+  Rel(orderSvc, repos, "")
+  Rel(orderSvc, gateway, "")
+  Rel(paymentSvc, repos, "")
+  Rel(paymentSvc, gateway, "")
+  Rel(repos, db, "SQL/TLS")
+  Rel(storage, imagenes, "HTTPS")
+  Rel(gateway, pagos, "HTTPS")
+
+  UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="1")

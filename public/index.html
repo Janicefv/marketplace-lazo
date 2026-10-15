@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lazo · Compra y vende entre personas</title>
+  <meta name="description" content="Marketplace C2C: busca, compra y vende productos entre personas.">
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/poppins-400.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/pages/home.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="/index.html"><img src="/img/logo.svg" alt="" width="34" height="34">Lazo</a>
+      <form class="search" id="search-form" role="search" action="/index.html" method="get">
+        <label class="visually-hidden" for="site-search">Buscar productos</label>
+        <input id="site-search" name="search" type="search" maxlength="100" autocomplete="off"
+               placeholder="Buscar bolsos, vestidos, velas…">
+        <button class="button" type="submit">Buscar</button>
+      </form>
+      <nav class="header-actions" id="session-actions" aria-label="Cuenta">
+        <a class="button" href="/publicar.html">Vender</a>
+        <a href="/login.html">Ingresar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div id="flash" hidden></div>
+    <div class="catalog">
+      <details class="filters" id="filters" open>
+        <summary>Filtros</summary>
+        <h2>Filtrar</h2>
+        <form id="filters-form" novalidate>
+          <fieldset>
+            <legend>Categoría</legend>
+            <div class="choice-list" id="category-list">
+              <label class="choice"><input type="radio" name="category" value="" checked> Todas</label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Precio en pesos</legend>
+            <div class="price-range">
+              <div>
+                <label for="minPrice">Mínimo</label>
+                <input id="minPrice" name="minPrice" type="number" min="0" step="1000" inputmode="numeric" placeholder="0">
+              </div>
+              <div>
+                <label for="maxPrice">Máximo</label>
+                <input id="maxPrice" name="maxPrice" type="number" min="0" step="1000" inputmode="numeric" placeholder="Sin límite">
+              </div>
+            </div>
+            <p class="field-error" id="maxPrice-error" role="alert"></p>
+          </fieldset>
+          <button class="button button--secondary button--block" type="button" id="clear-filters">Quitar filtros</button>
+        </form>
+      </details>
+
+      <section aria-labelledby="results-title">
+        <div class="results-head">
+          <div>
+            <h1 id="results-title">Lo que se está <em>vendiendo</em></h1>
+            <p class="results-count" id="results-count" aria-live="polite"></p>
+          </div>
+          <div class="sort">
+            <label for="sort">Ordenar por</label>
+            <select id="sort" name="sort" form="filters-form">
+              <option value="">Más relevantes</option>
+              <option value="recientes">Más recientes</option>
+              <option value="precio_asc">Menor precio</option>
+              <option value="precio_desc">Mayor precio</option>
+            </select>
+          </div>
+        </div>
+        <ul class="grid" id="results" aria-busy="true"></ul>
+        <nav class="pagination" id="pagination" aria-label="Páginas de resultados"></nav>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p><span class="footer-mark" aria-hidden="true">♡</span> Lazo es un marketplace C2C: cada persona registrada puede comprar y vender.</p></footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lazo">
+  <path d="M30 34 L21 56 L28 52 L31 58 Z" fill="#a93163"/>
+  <path d="M34 34 L43 56 L36 52 L33 58 Z" fill="#a93163"/>
+  <path d="M30 30 C22 16 6 14 6 26 C6 38 22 40 30 34 Z" fill="#f28db2"/>
+  <path d="M34 30 C42 16 58 14 58 26 C58 38 42 40 34 34 Z" fill="#f28db2"/>
+  <path d="M27 31 C21 24 12 22 12 27 C12 32 20 34 27 32 Z" fill="#c2457a" opacity="0.45"/>
+  <path d="M37 31 C43 24 52 22 52 27 C52 32 44 34 37 32 Z" fill="#c2457a" opacity="0.45"/>
+  <rect x="26" y="25" width="12" height="13" rx="5" fill="#c2457a"/>
+</svg>
